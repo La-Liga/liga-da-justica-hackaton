@@ -15,6 +15,8 @@ realizado através da VPN.
     IP:         172.31.7.126
     USUÁRIO:    ubuntu
     SENHA:      N9sdhpi2Dhn2
+    
+    Para acesso externo à sua API desenvolvida, utilize o endereço: http://54.183.243.194
 
 
 
