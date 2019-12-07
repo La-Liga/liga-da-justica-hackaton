@@ -9,58 +9,94 @@
     </ol>
 }
 
-<div class="row">
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-primary">
-            <div class="card-body">
-                <div class="text-value">89.9%</div>
-                <div>Lorem ipsum...</div>
-                <div class="progress progress-white progress-xs my-2">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small class="text-muted">Lorem ipsum dolor sit amet enim.</small>
+<div class="card-group mb-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="h1 text-muted text-right mb-4">
+                <i class="icon-docs"></i>
+            </div>
+            <div class="text-value">385</div>
+            <small class="text-muted text-uppercase font-weight-bold">Editais Mapeados</small>
+            <div class="progress progress-xs mt-3 mb-0">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
     </div>
-    <!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-warning">
-            <div class="card-body">
-                <div class="text-value">12.124</div>
-                <div>Lorem ipsum...</div>
-                <div class="progress progress-white progress-xs my-2">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small class="text-muted">Lorem ipsum dolor sit amet enim.</small>
+    <div class="card">
+        <div class="card-body">
+            <div class="h1 text-muted text-right mb-4">
+                <i class="icon-star"></i>
+            </div>
+            <div class="text-value">15</div>
+            <small class="text-muted text-uppercase font-weight-bold">Editais Favoritos</small>
+            <div class="progress progress-xs mt-3 mb-0">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
     </div>
-    <!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-danger">
-            <div class="card-body">
-                <div class="text-value">$98.111,00</div>
-                <div>Lorem ipsum...</div>
-                <div class="progress progress-white progress-xs my-2">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small class="text-muted">Lorem ipsum dolor sit amet enim.</small>
+    <div class="card">
+        <div class="card-body">
+            <div class="h1 text-muted text-right mb-4">
+                <i class="fa fa-gavel"></i>
+            </div>
+            <div class="text-value">1238</div>
+            <small class="text-muted text-uppercase font-weight-bold">Sentenças Mapeadas</small>
+            <div class="progress progress-xs mt-3 mb-0">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
     </div>
-    <!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-info">
-            <div class="card-body">
-                <div class="text-value">2 TB</div>
-                <div>Lorem ipsum...</div>
-                <div class="progress progress-white progress-xs my-2">
-                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small class="text-muted">Lorem ipsum dolor sit amet enim.</small>
+    <div class="card">
+        <div class="card-body">
+            <div class="h1 text-muted text-right mb-4">
+                <i class="icon-calculator"></i>
+            </div>
+            <div class="text-value">R$ 5.670.043,20</div>
+            <small class="text-muted text-uppercase font-weight-bold">Total Pleiteado</small>
+            <div class="progress progress-xs mt-3 mb-0">
+                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
     </div>
-    <!--/.col-->
+    <div class="card">
+        <div class="card-body">
+            <div class="h1 text-muted text-right mb-4">
+                <i class="icon-calculator"></i>
+            </div>
+            <div class="text-value">R$ 1.550.503,53</div>
+            <small class="text-muted text-uppercase font-weight-bold">Total Arrecadado</small>
+            <div class="progress progress-xs mt-3 mb-0">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
 </div>
-<!--/.row-->
+
+<div class="card-columns cols-2">
+    <div class="card card-accent-success">
+        <div class="card-header">
+            <i class="icon-docs"></i> Editais
+        </div>
+        <div class="card-body">
+            <div class="chart-wrapper">
+                <canvas id="canvas-1"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="card card-accent-danger">
+        <div class="card-header">
+            <i class="fa fa-gavel"></i> Sentenças
+        </div>
+        <div class="card-body">
+            <div class="chart-wrapper">
+                <canvas id="canvas-2"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/chart.js/dist/Chart.min.js"></script>
+    <script src="~/lib/@@coreui/coreui-plugin-chartjs-custom-tooltips/dist/js/custom-tooltips.min.js"></script>
+    <script src="~/js/charts.js"></script>
+}
