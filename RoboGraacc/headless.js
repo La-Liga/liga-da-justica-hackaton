@@ -13,20 +13,10 @@ const puppeteer = require('puppeteer');
 
     console.log(await page.title());
 
-    // const result = await page.evaluate(body => {
-    //     return document.querySelector('body');
-        
-    //     //console.log(element);
-    // });
-
-    const htmlElement = await page.$('#e-search-right > div.item');
-    //console.log(htmlElement);
     const html = await page.evaluate(element => {
-        //element.forEach(item => console.log(item));
-        let itens = [];
-        [].forEach.call(element, item => itens.push(item));
-        return itens;
-    }, htmlElement);
+        const elements =  Array.from(document.querySelectorAll('#e-search-right > div.item'));
+        return elements.map(item => item.innerHTML.replace(/<a [^>]+>[^<]*<\/a>/g, '').trim());
+    });
 
     console.log(html);
     //await page.screenshot({ path: 'pesquisa.png' });
