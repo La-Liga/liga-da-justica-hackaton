@@ -15,6 +15,11 @@ namespace ProjetoGraacc.Controllers
             return View();
         }
 
+        public IActionResult Editais()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

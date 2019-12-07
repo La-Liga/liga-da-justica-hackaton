@@ -11,6 +11,9 @@
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/lib/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
 
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/datatables/css/dataTables.bootstrap4.css" />
+
     <!-- Template styles -->
     <link href="~/css/style.css" rel="stylesheet">
     <link href="~/vendors/pace-progress/css/pace.css" rel="stylesheet">
@@ -32,6 +35,10 @@
             <button class="sidebar-minimizer brand-minimizer" type="button"></button>
         </div>
         <main class="main">
+            <!-- VIEW-BREADCRUMBS -->
+            @RenderSection("Breadcrumbs", required: false)
+            <!-- /VIEW-BREADCRUMBS -->
+
             <div class="container-fluid">
                 <!-- VIEW-STYLES -->
                 @RenderSection("Styles", required: false)
@@ -41,14 +48,8 @@
                     @RenderBody()
                     <!-- /VIEW-CONTENT -->
                 </div>
-                <!-- VIEW-MODALS -->
-                @RenderSection("Modals", required: false)
-                <!-- /VIEW-MODALS -->
             </div>
         </main>
-        <!-- ASIDE-MENU -->
-        <partial name="_aside-menu" />
-        <!-- /ASIDE-MENU -->
     </div>
     <footer class="app-footer">
         <div>
@@ -63,6 +64,10 @@
     <script src="~/lib/pace-progress/pace.min.js"></script>
     <script src="~/lib/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
     <script src="~/lib/@@coreui/coreui/dist/js/coreui.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
