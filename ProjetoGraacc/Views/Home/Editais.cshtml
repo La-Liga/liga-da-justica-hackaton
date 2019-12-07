@@ -118,7 +118,7 @@
                 <i class="fa fa-align-justify"></i> Editais Pleiteados
             </div>
             <div class="card-body">
-                <table class="table table-responsive-sm table-striped table-sm tbEditaisFinalizados">
+                <table class="table table-responsive-sm table-striped table-sm tbEditaisPleiteados">
                     <thead>
                         <tr>
                             <th data-orderable="false"></th>
@@ -217,6 +217,10 @@
     <script type="text/javascript">
         $('.tbEditaisAbertos').DataTable({
             "order": [[5, "asc"]]
+        });
+
+        $('.tbEditaisPleiteados').DataTable({
+            "order": [[4, "asc"]]
         });
 
         $('.tbEditaisFinalizados').DataTable({
