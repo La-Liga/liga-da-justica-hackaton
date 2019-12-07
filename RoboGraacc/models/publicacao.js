@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const publicacaoSchema = new mongoose.Schema({
     titulo: String,
     link: String,
-    resumo: String,
+    textoHtml: String,
     texto: String,
-    dataDisponibilizacao: Date
+    dataPublicacao: String
 });
 
 const Publicacao = mongoose.model('Publicacao', publicacaoSchema);

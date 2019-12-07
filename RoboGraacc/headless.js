@@ -1,5 +1,6 @@
 const readlineSync = require('readline-sync');
 const puppeteer = require('puppeteer');
+const htmlToText = require('html-to-text');
 const servico = require('./servicos/publicacao.service');
 
 const palavraChave = readlineSync.question('Qual a palavra chave? ');
@@ -42,7 +43,8 @@ const palavraChave = readlineSync.question('Qual a palavra chave? ');
     //     return elements.map(item => item.innerHTML);
     // });
 
-    const html = await page.evaluate(() => {
+
+    const publicacoes = await page.evaluate(() => {
         let result = [];
         const pat = /\d{2}\-\d{2}\-\d{4}/g;
 
@@ -50,10 +52,11 @@ const palavraChave = readlineSync.question('Qual a palavra chave? ');
         elements.forEach(item => {
             let element = item.querySelector('div.item-desc');
             let date = pat.exec(element.innerHTML);
+
             result.push({
                 titulo: element.querySelector('a.e-search-title > b').innerText,
                 link: element.querySelector('a.e-search-title').getAttribute('href'),
-                texto: element.innerHTML,
+                textoHtml: element.innerHTML,
                 dataPublicacao: (date) ? date[0] : ''
             })
         });
@@ -62,59 +65,13 @@ const palavraChave = readlineSync.question('Qual a palavra chave? ');
     });
 
 
-    // const html = await page.evaluate(() => {
-    //     let result = [];
-    //     //const elements =
-    //     document.querySelectorAll('#e-search-right > div.item').forEach(item => {
-    //         result.push(item.querySelector('div.item-numero').innerHTML);
-    //     });
-
-    //     return result;
-    //     //return elements.map(item => item);
-    // });
-
-    // const bodyHandle = await page.$('#e-search-right');
-    // const html = await page.evaluate(body => {
-    //     let i = [];
-    //     async () => {
-    //         await body.$$eval('div.item', (desc) => {
-    //            i.push(desc.innerHTML);
-    //         });
-    //     }
-
-    //     return i;
-    // }, bodyHandle);
-
-    // // const html = await page.evaluate(() => {
-    // //     const element =  document.querySelector('#e-search-right');
-    // //     return elements.map(item => item);
-    // //     let result = [];
-    // //     const feedHandle = await page.$('#e-search-right');
-    // //     let result = elements.$$eval('div.item', (nodes) => nodes.map((n) => {
-    // //         //n.innerText
-    // //         //let tweetHandle = await n.$eval('.item-numero');
-    // //          result.push(n.innerHTML)
-    // //          return n.innerHTML;
-    // //     }));
-
-    // //     return result;
-    // // });
 
     await browser.close();
 
-    console.log(html);
-
-    // await servico.criarPublicacao({
-    //     titulo: 'titulo',
-    //     link: 'link',
-    //     resumo: 'resumo',
-    //     texto: html[0],
-    //     dataDisponibilizacao: new Date
-    // });
-
-    html.forEach( async(item) => {
-        await servico.criarPublicacao(item)
-        //console.log(item.innerHTML)
+    publicacoes.forEach(async (item) => {
+        await servico.criarPublicacao({
+            ...item, texto: htmlToText.fromString(item.textoHtml, { wordwrap: 130 }),
+        })
     });
 
 })();

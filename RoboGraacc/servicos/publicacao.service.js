@@ -25,10 +25,6 @@ const criarPublicacao = async (item) => {
     } catch (error) {
         console.log(error);
     }
-    // publicacao.save(function (err, publicacao) {
-    //     if (err) return console.error(err);
-    // });
-
 };
 
 module.exports = {
