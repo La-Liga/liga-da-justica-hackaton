@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Favoritos";
+}
+
+<style>
+    .iconFavorit:before {
+        visibility: visible;
+    }
+
+    input[type=checkbox].iconFavorit {
+        visibility: hidden;
+    }
+</style>
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Home</li>
+        <li class="breadcrumb-item active">Favoritos</li>
+    </ol>
+}
+
+<div class="row">
+    <div class="col-sm-6 col-md-4">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                Edital Nº 022/2019
+
+                <div class="card-header-actions">
+                    <input type="checkbox" class="iconFavorit fa fa-star" style="color: #dcbd15;" value="true" />
+                    <a href="@Url.Action("Editar", "Home")" class="card-header-action btn-setting" title="Editar"><i class="icon-settings"></i></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <b>Município:</b> PIÚMA - ES
+                <br />
+                <b>Órgão:</b> PIÚMA - 2ª VARA
+                <br />
+                <b>Data de publicação:</b> 15/04/2019
+            </div>
+            <div class="card-body" style="text-align: justify;">
+                <b>Resumo:</b>
+                <br />
+                Esta 2ª Vara da Comarca de Piúma torna público, para conhecimento dos interessados, 
+                o Edital para Seleção de Projetos Sociais, conforme Resolução nº 154/2012, do Conselho Nacional 
+                de Justiça e Ato Normativo Conjunto nº 002/2013, da Presidência do Tribunal de Justiça e 
+                Corregedoria Geral de Justiça do Estado do Espírito Santo.
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('.iconFavorit').on('click', function () {
+            var object = $(this).val();
+
+            if (object == 'true') {
+                $(this).removeClass('fa fa-star').addClass('fa fa-star-o').removeAttr('style');
+                $(this).val(false);
+            }
+            else {
+                $(this).removeClass('fa fa-star-o').addClass('fa fa-star').css('color', '#dcbd15');
+                $(this).val(true);
+            }
+        });
+    </script>
+}

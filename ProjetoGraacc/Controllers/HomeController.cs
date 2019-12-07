@@ -15,7 +15,27 @@ namespace ProjetoGraacc.Controllers
             return View();
         }
 
+        public IActionResult Publicacoes()
+        {
+            return View();
+        }
+
+        public IActionResult Favoritos()
+        {
+            return View();
+        }
+
+        public IActionResult Editar()
+        {
+            return View();
+        }
+
         public IActionResult Editais()
+        {
+            return View();
+        }
+
+        public IActionResult Sentencas()
         {
             return View();
         }
