@@ -13,9 +13,9 @@ const puppeteer = require('puppeteer');
 
     console.log(await page.title());
 
-    const html = await page.evaluate(element => {
+    const html = await page.evaluate(() => {
         const elements =  Array.from(document.querySelectorAll('#e-search-right > div.item'));
-        return elements.map(item => item.innerHTML.replace(/<a [^>]+>[^<]*<\/a>/g, '').trim());
+        return elements.map(item => item.innerHTML);
     });
 
     console.log(html);
