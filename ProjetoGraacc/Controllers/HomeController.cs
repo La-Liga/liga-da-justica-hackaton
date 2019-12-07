@@ -4,13 +4,48 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
+using ProjetoGraacc.Data.Repositorios;
 using ProjetoGraacc.Models;
 
 namespace ProjetoGraacc.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEditalRespositorio _editalRepositorio;
+
+        public HomeController(IEditalRespositorio editalRespositorio)
+        {
+            _editalRepositorio = editalRespositorio;
+        }
+
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Publicacoes()
+        {
+            return View();
+        }
+
+        public IActionResult Favoritos()
+        {
+            return View();
+        }
+
+        public IActionResult Editar()
+        {
+            return View();
+        }
+
+        public IActionResult Editais()
+        {
+            return View();
+        }
+
+        public IActionResult Sentencas()
         {
             return View();
         }

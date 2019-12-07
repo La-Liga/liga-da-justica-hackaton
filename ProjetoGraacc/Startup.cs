@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProjetoGraacc.Data.Models.Config;
+using ProjetoGraacc.Data.Repositorios;
 
 namespace ProjetoGraacc
 {
@@ -31,6 +33,9 @@ namespace ProjetoGraacc
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<ConnectionStringConfig>(Configuration.GetSection("ConnectionString"));
+
+            services.AddTransient<IEditalRespositorio, EditalRepositorio>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -52,6 +57,8 @@ namespace ProjetoGraacc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
