@@ -9,7 +9,7 @@ namespace ProjetoGraacc.Interfaces
 {
     public interface IEditalService
     {
-        Task<IList<EditalListViewModel>> GetAllEditaisAsync();
+        Task<IList<EditalListViewModel>> GetAllEditaisAsync(EditalFilterViewModel filter);
         Task<bool> AlterarFlagFavoritoAsync(FavoritarViewModel model);
     }
 }
