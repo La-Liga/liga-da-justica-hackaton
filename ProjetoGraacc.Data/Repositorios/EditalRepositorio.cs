@@ -14,6 +14,7 @@ namespace ProjetoGraacc.Data.Repositorios
     public interface IEditalRespositorio
     {
         Task<IList<Edital>> ListAllEditalAsync();
+        Task<bool> AlterFalgFavoritoAsync(int id, bool favoritar);
     }
 
     public class EditalRepositorio : IEditalRespositorio
@@ -40,6 +41,24 @@ namespace ProjetoGraacc.Data.Repositorios
             }
 
             return itens.ToList();
+        }
+
+        public async Task<bool> AlterFalgFavoritoAsync(int id, bool favoritar)
+        {
+            bool result = false;
+            using (var connection = new MySqlConnection(_connectionString.MySQL))
+            {
+                await connection.OpenAsync();
+
+                var sql = $"update edital set favorito = {favoritar} where id = {id}";
+                await connection.QueryAsync<Edital>(sql);
+
+                result = true;
+
+                await connection.CloseAsync();
+            }
+
+            return result;
         }
     }
 }

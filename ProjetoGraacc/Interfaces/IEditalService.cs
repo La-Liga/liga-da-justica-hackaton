@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProjetoGraacc.Models;
+using ProjetoGraacc.Models.Edital;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,5 +9,7 @@ namespace ProjetoGraacc.Interfaces
 {
     public interface IEditalService
     {
+        Task<IList<EditalListViewModel>> GetAllEditaisAsync();
+        Task<bool> AlterarFlagFavoritoAsync(FavoritarViewModel model);
     }
 }

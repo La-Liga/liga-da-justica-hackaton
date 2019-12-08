@@ -2,16 +2,6 @@
     ViewData["Title"] = "Publicações";
 }
 
-<style>
-    .iconFavorit:before {
-        visibility: visible;
-    }
-
-    input[type=checkbox].iconFavorit {
-        visibility: hidden;
-    }
-</style>
-
 @section Breadcrumbs {
     <ol class="breadcrumb">
         <li class="breadcrumb-item active">Home</li>
@@ -57,36 +47,40 @@
                 <table class="table table-responsive-sm table-striped table-sm tbPublicacoes">
                     <thead>
                         <tr>
-                            <th data-orderable="false"></th>
                             <th>Edital Nº</th>
                             <th>UF</th>
                             <th>Município</th>
                             <th>Órgão</th>
                             <th>Data de publicação</th>
                             <th width="10%" data-orderable="false"></th>
+                            <th width="10%" data-orderable="false"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input type="checkbox" class="iconFavorit fa fa-star-o font-xl" value="false" /></td>
                             <td>001/2019</td>
                             <td>ES</td>
                             <td>JERÔNIMO MONTEIRO</td>
                             <td>JERÔNIMO MONTEIRO - VARA ÚNICA</td>
                             <td>@DateTime.Now.ToShortDateString()</td>
                             <td>
-                                <button type="button" class="btn btn-pill btn-block btn-secondary active" aria-pressed="true">Detalhar</button>
+                                <button type="button" class="btn btn-pill btn-block btn-secondary" aria-pressed="true">Detalhar</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-pill btn-block btn-primary" aria-pressed="true">Selecionar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td><input type="checkbox" class="iconFavorit fa fa-star font-xl" style="color: #dcbd15;" value="true" /></td>
                             <td>022/2019</td>
                             <td>ES</td>
                             <td>PIÚMA</td>
                             <td>PIÚMA - 2ª VARA</td>
                             <td>15/04/2019</td>
                             <td>
-                                <button type="button" class="btn btn-pill btn-block btn-secondary active" aria-pressed="true">Detalhar</button>
+                                <button type="button" class="btn btn-pill btn-block btn-secondary" aria-pressed="true">Detalhar</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-pill btn-block btn-primary" aria-pressed="true">Selecionar</button>
                             </td>
                         </tr>
                     </tbody>

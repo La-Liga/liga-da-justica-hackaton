@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProjetoGraacc.Data.Models.Config;
 using ProjetoGraacc.Data.Repositorios;
+using ProjetoGraacc.Interfaces;
+using ProjetoGraacc.Services;
 
 namespace ProjetoGraacc
 {
@@ -35,6 +37,7 @@ namespace ProjetoGraacc
 
             services.Configure<ConnectionStringConfig>(Configuration.GetSection("ConnectionString"));
 
+            services.AddTransient<IEditalService, EditalService>();
             services.AddTransient<IEditalRespositorio, EditalRepositorio>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

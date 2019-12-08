@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
-using ProjetoGraacc.Data.Repositorios;
+using ProjetoGraacc.Data.Constants;
+using ProjetoGraacc.Interfaces;
 using ProjetoGraacc.Models;
+using ProjetoGraacc.Models.Helper;
 
 namespace ProjetoGraacc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEditalRespositorio _editalRepositorio;
+        private readonly IEditalService _editalService;
 
-        public HomeController(IEditalRespositorio editalRespositorio)
+        public HomeController(IEditalService editalService)
         {
-            _editalRepositorio = editalRespositorio;
+            _editalService = editalService;
         }
 
         public IActionResult Index()
@@ -40,14 +42,46 @@ namespace ProjetoGraacc.Controllers
             return View();
         }
 
-        public IActionResult Editais()
+        public async Task<IActionResult> Editais()
         {
-            return View();
+            var model = await _editalService.GetAllEditaisAsync();
+            return View(model);
         }
 
         public IActionResult Sentencas()
         {
             return View();
+        }
+
+        [HttpPost, ActionName("AlterarFlagFavorito")]
+        public async Task<IActionResult> AlterarFlagFavoritoAsync(FavoritarViewModel model)
+        {
+            ReturnViewModel retorno = new ReturnViewModel();
+
+            try
+            {
+                bool result = false;
+                if (model.Objeto == ObjectsConstant.Edital)
+                {
+                    result = await _editalService.AlterarFlagFavoritoAsync(model);
+                }
+                else if (model.Objeto == ObjectsConstant.Sentenca)
+                {
+                   
+                }
+
+                if (!result)
+                    retorno.MensagemErro = "Não foi possível Favoritar/Desfavoritar esse item!";
+
+                retorno.Sucesso = result;
+            }
+            catch (Exception)
+            {
+                retorno.Sucesso = false;
+                retorno.MensagemErro = "Erro, tente novamente!";
+            }
+
+            return Json(retorno);
         }
 
         public IActionResult Privacy()

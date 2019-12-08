@@ -21,5 +21,6 @@ namespace ProjetoGraacc.Data.Models
         public decimal valor_recebido { get; set; }
         public DateTime? data_notificacao { get; set; }
         public string usuario_cadastro { get; set; }
+        public int status { get; set; }
     }
 }
