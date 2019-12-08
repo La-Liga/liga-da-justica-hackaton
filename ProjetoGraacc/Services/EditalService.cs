@@ -1,7 +1,9 @@
-﻿using ProjetoGraacc.Data.Repositorios;
+﻿using ProjetoGraacc.Data.Models.Include;
+using ProjetoGraacc.Data.Repositorios;
 using ProjetoGraacc.Interfaces;
 using ProjetoGraacc.Models;
 using ProjetoGraacc.Models.Edital;
+using ProjetoGraacc.Models.Publicacao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,5 +51,24 @@ namespace ProjetoGraacc.Services
         public async Task<bool> AlterarFlagFavoritoAsync(FavoritarViewModel model) =>  await _editalRespositorio.AlterFalgFavoritoAsync(model.Id, model.Favoritar);
 
         public async Task<bool> EditEditalAsync(EditalEditViewModel model) => await _editalRespositorio.EditEditalAsync(model.Id, model.ValorPleiteado, model.ValorRecebido, model.DtNotificacao, model.Status);
+
+        public async Task<bool> IncluiEditalAsync(PublicacaoSelecionarViewModel model)
+        {
+            var edital = new IncluirEditalModel
+            {
+                NrProcesso = model.NrProcesso,
+                Titulo = model.Titulo,
+                Link = model.Link,
+                Texto = model.Texto,
+                TextoHtml = model.TextoHtml,
+                DtPublicacao = model.DtPublicacao,
+                TpPublicacao = model.TpPublicacao,
+                ValorPleiteado = model.ValorPleiteado,
+                DtNotificacao = model.DtNotificacao,
+                Status = model.Status
+            };
+
+            return await _editalRespositorio.IncluiEditalAsync(edital);
+        }
     }
 }

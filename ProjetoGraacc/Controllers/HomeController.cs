@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
-using ProjetoGraacc.Data.Constants;
+using ProjetoGraacc.Data.Enum;
 using ProjetoGraacc.Interfaces;
 using ProjetoGraacc.Models;
 using ProjetoGraacc.Models.Edital;
 using ProjetoGraacc.Models.Helper;
+using ProjetoGraacc.Models.Publicacao;
 using ProjetoGraacc.Services;
 
 namespace ProjetoGraacc.Controllers
@@ -20,7 +21,8 @@ namespace ProjetoGraacc.Controllers
         private readonly IEditalService _editalService;
         private readonly EditalMongoService _editalMongoService;
 
-        public HomeController(IEditalService editalService, EditalMongoService bookService)
+        public HomeController(IEditalService editalService,
+            EditalMongoService bookService)
         {
             _editalService = editalService;
             _editalMongoService = bookService;
@@ -36,13 +38,44 @@ namespace ProjetoGraacc.Controllers
             var result = _editalMongoService.Get();
             return View(result.Select(x => new EditalMongoListViewModel
             {
-                Id = x.Id.ToString(),
-                Titulo = x.Titulo,
-                TextoHtml = x.TextoHtml,
-                DataPublicacao = x.DataPublicacao,
                 NumeroProcesso = x.NumeroProcesso,
-                Link = x.Link
+                Titulo = x.Titulo,
+                Link = x.Link,
+                Texto = x.Texto,
+                TextoHtml = x.TextoHtml,
+                DataPublicacao = x.DataPublicacao
             }).ToList());
+        }
+
+        [HttpPost, ActionName("SelecionarPublicacao")]
+        public async Task<IActionResult> SelecionarPublicacaoAsync(PublicacaoSelecionarViewModel model)
+        {
+            ReturnViewModel retorno = new ReturnViewModel();
+
+            try
+            {
+                bool result = false;
+                if (model.TpPublicacao == Convert.ToInt32(ObjectsEnum.Edital).ToString())
+                {
+                    result = await _editalService.IncluiEditalAsync(model);
+                }
+                else if (model.TpPublicacao == Convert.ToInt32(ObjectsEnum.Sentenca).ToString())
+                {
+
+                }
+
+                if (!result)
+                    retorno.MensagemErro = "Não foi selecionar esse item!";
+
+                retorno.Sucesso = result;
+            }
+            catch (Exception)
+            {
+                retorno.Sucesso = false;
+                retorno.MensagemErro = "Erro, tente novamente!";
+            }
+
+            return Json(retorno);
         }
 
         public IActionResult Favoritos()
@@ -93,11 +126,11 @@ namespace ProjetoGraacc.Controllers
             try
             {
                 bool result = false;
-                if (model.Objeto == ObjectsConstant.Edital)
+                if (model.Objeto == ObjectsEnum.Edital.ToString())
                 {
                     result = await _editalService.AlterarFlagFavoritoAsync(model);
                 }
-                else if (model.Objeto == ObjectsConstant.Sentenca)
+                else if (model.Objeto == ObjectsEnum.Sentenca.ToString())
                 {
                    
                 }

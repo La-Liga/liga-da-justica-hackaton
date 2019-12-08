@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using ProjetoGraacc.Data.Models;
 using ProjetoGraacc.Data.Models.Config;
 using ProjetoGraacc.Data.Models.Filters;
+using ProjetoGraacc.Data.Models.Include;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ProjetoGraacc.Data.Repositorios
         Task<IList<Edital>> ListEditaisAsync(EditalFilterViewModel filter);
         Task<bool> AlterFalgFavoritoAsync(int id, bool favoritar);
         Task<bool> EditEditalAsync(int id, decimal valorPleiteado, decimal valorRecebido, DateTime? dtNotificacao, string status);
+        Task<bool> IncluiEditalAsync(IncluirEditalModel edital);
     }
 
     public class EditalRepositorio : IEditalRespositorio
@@ -97,6 +99,35 @@ namespace ProjetoGraacc.Data.Repositorios
                 else
                 {
                     sql = $"update edital set valor_pleiteado = {valorPleiteado.ToString().Replace(",", ".")}, valor_recebido = {valorRecebido.ToString().Replace(",", ".")}, status = {status} where id = {id}";
+                }
+
+                await connection.QueryAsync<Edital>(sql);
+
+                result = true;
+
+                await connection.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> IncluiEditalAsync(IncluirEditalModel edital)
+        {
+            bool result = false;
+            using (var connection = new MySqlConnection(_connectionString.MySQL))
+            {
+                await connection.OpenAsync();
+
+                string sql;
+                if (edital.DtNotificacao.HasValue)
+                {
+                    sql = $"insert into edital (num_edital, titulo, link, resumo, texto, texto_html, valor_pleiteado, uf, data_publicacao, data_notificacao, usuario_cadastro, status)" +
+                    $"values ('{edital.NrProcesso}', '{edital.Titulo}', '{edital.Link}', 'Resumo', '{edital.Texto}', '{edital.TextoHtml}', {edital.ValorPleiteado.ToString().Replace(",", ".")}, 'ES', '{Convert.ToDateTime(edital.DtPublicacao.Replace("-", "/")).ToString("yyyy-MM-dd")}', '{edital.DtNotificacao.Value.ToString("yyyy-MM-dd")}', 'Carlos', '{edital.Status}')";
+                }
+                else
+                {
+                    sql = $"insert into edital (num_edital, titulo, link, resumo, texto, texto_html, valor_pleiteado, uf, data_publicacao, usuario_cadastro, status)" +
+                    $"values ('{edital.NrProcesso}', '{edital.Titulo}', '{edital.Link}', 'Resumo', '{edital.Texto}', '{edital.TextoHtml}', {edital.ValorPleiteado.ToString().Replace(",", ".")}, 'ES', '{Convert.ToDateTime(edital.DtPublicacao.Replace("-", "/")).ToString("yyyy-MM-dd")}', 'Carlos', '{edital.Status}')";
                 }
 
                 await connection.QueryAsync<Edital>(sql);
