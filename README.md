@@ -36,7 +36,7 @@ Funcionalidades Futuras
 ========================================================================
 * Notificações (Email, Celular)
 * Análise cognitiva textual
-* Automatização de processos através de integração com ferramentas externas (Tribunais e Varas)
+* Automatização de processos através de integração com ferramentas externas (Sistema SEI e TJs)
 * Acrescentar mais alvos de buscas em diferente formatos (PDFs)
 * Sugerir um padrão aberto que facilite a busca e comunicação, entre as instituições e os tribunais
 
