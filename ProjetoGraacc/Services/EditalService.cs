@@ -39,10 +39,15 @@ namespace ProjetoGraacc.Services
                 Orgao = m.orgao,
                 DtPublicacao = m.data_publicacao.ToShortDateString(),
                 Status = m.status.ToString(),
-                Favorito = m.favorito
+                Favorito = m.favorito,
+                vlPeiteado = m.valor_pleiteado,
+                vlRecebido = m.valor_recebido,
+                dtNotificacao = m.data_notificacao.HasValue ? m.data_notificacao.Value.ToShortDateString() : null
             }).ToList();
         }
 
         public async Task<bool> AlterarFlagFavoritoAsync(FavoritarViewModel model) =>  await _editalRespositorio.AlterFalgFavoritoAsync(model.Id, model.Favoritar);
+
+        public async Task<bool> EditEditalAsync(EditalEditViewModel model) => await _editalRespositorio.EditEditalAsync(model.Id, model.ValorPleiteado, model.ValorRecebido, model.DtNotificacao, model.Status);
     }
 }

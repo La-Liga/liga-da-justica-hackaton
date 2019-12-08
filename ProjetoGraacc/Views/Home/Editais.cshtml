@@ -110,7 +110,7 @@
                                     <td>@edital.Orgao</td>
                                     <td>@edital.DtPublicacao</td>
                                     <td>
-                                        <button type="button" class="btn btn-pill btn-block btn-warning" aria-pressed="true"><span class="icon-note"></span> Editar</button>
+                                        <button type="button" class="btn btn-pill btn-block btn-warning btn-edital-editar" aria-pressed="true" data-idEdital="@edital.Id" data-nmMunicipio="@edital.Municipio" data-nmUF="@edital.UF" data-nmOrgao="@edital.Orgao" data-dtPublicacao="@edital.DtPublicacao" data-vlPleiteado="@edital.vlPeiteado" data-vlRecebido="@edital.vlRecebido" data-dtNotificacao="@edital.dtNotificacao" data-status="@edital.Status"><span class="icon-note"></span> Editar</button>
                                     </td>
                                 </tr>
                             }
@@ -164,7 +164,7 @@
                                     <td>@edital.Orgao</td>
                                     <td>@edital.DtPublicacao</td>
                                     <td>
-                                        <button type="button" class="btn btn-pill btn-block btn-warning" aria-pressed="true"><span class="icon-note"></span> Editar</button>
+                                        <button type="button" class="btn btn-pill btn-block btn-warning btn-edital-editar" aria-pressed="true" data-idEdital="@edital.Id" data-nmMunicipio="@edital.Municipio" data-nmUF="@edital.UF" data-nmOrgao="@edital.Orgao" data-dtPublicacao="@edital.DtPublicacao" data-vlPleiteado="@edital.vlPeiteado" data-vlRecebido="@edital.vlRecebido" data-dtNotificacao="@edital.dtNotificacao" data-status="@edital.Status"><span class="icon-note"></span> Editar</button>
                                     </td>
                                 </tr>
                             }
@@ -218,7 +218,7 @@
                                     <td>@edital.Orgao</td>
                                     <td>@edital.DtPublicacao</td>
                                     <td>
-                                        <button type="button" class="btn btn-pill btn-block btn-warning" aria-pressed="true"><span class="icon-note"></span> Editar</button>
+                                        <button type="button" class="btn btn-pill btn-block btn-warning btn-edital-editar" aria-pressed="true" data-idEdital="@edital.Id" data-nmMunicipio="@edital.Municipio" data-nmUF="@edital.UF" data-nmOrgao="@edital.Orgao" data-dtPublicacao="@edital.DtPublicacao" data-vlPleiteado="@edital.vlPeiteado" data-vlRecebido="@edital.vlRecebido" data-dtNotificacao="@edital.dtNotificacao" data-status="@edital.Status"><span class="icon-note"></span> Editar</button>
                                     </td>
                                 </tr>
                             }
@@ -232,8 +232,68 @@
     <!--/.row-->
 }
 
+<div class="modal fade modal-edital-editar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-warning modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span class="icon-note"></span> Edital Edital</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <b>Município:</b> <span class="nmMunicipio"></span>
+                <br />
+                <b>Órgão:</b> <span class="nmOrgao"></span>
+                <br />
+                <b>Data de publicação:</b> <span class="dtPublicacao"></span>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm-12">
+                    <div class="mensagem-edital-editar" role="alert"></div>
+                </div>
+                <div class="form-row model-text">
+                    <input type="hidden" class="idEdital" />
+                    <div class="form-group col-sm-3">
+                        <label>Valor Pleiteado (R$):</label>
+                        <input type="text" class="form-control valorPleiteado money" />
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label>Valor Recebido (R$):</label>
+                        <input type="text" class="form-control valorRecebido money" />
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label>Data para notificação:</label>
+                        <input type="date" class="form-control dtNotificacao" />
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label>Status:</label>
+                        <select class="form-control status">
+                            <option value="1">Aberta</option>
+                            <option value="2">Pleiteado</option>
+                            <option value="3">Finalizado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-warning btn-edital-editar-salvar">Salvar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 @section Scripts{
+    <script src="~/js/jquery.mask.js"></script>
+
     <script type="text/javascript">
+        $('.money').mask('#.##0,00', { reverse: true });
+
         $('.tbEditaisAbertos').DataTable({
             "order": [[5, "asc"]]
         });
@@ -256,7 +316,7 @@
                     $(this).removeClass('fa fa-star').addClass('fa fa-star-o').removeAttr('style');
                     $(this).val(false);
                 }
-                }
+            }
             else {
                 var result = await SetFlagFavorito("Edital", idEdital, true);
                 if (result) {
@@ -264,6 +324,73 @@
                     $(this).val(true);
                 }
             }
+        });
+
+        $('.btn-edital-editar').on('click', function () {
+            var idEdital = $(this).data('idedital');
+            var nmMunicipio = $(this).data('nmmunicipio');
+            var nmUF = $(this).data('nmuf');
+            var nmOrgao = $(this).data('nmorgao');
+            var dtPublicacao = $(this).data('dtpublicacao');
+
+            var vlPleiteado = $(this).data('vlpleiteado');
+            var vlRecebido = $(this).data('vlrecebido');
+            var dtNotificacao = $(this).data('dtnotificacao');
+            var status = $(this).data('status');
+
+            $('.nmMunicipio').text('');
+            $('.nmOrgao').text('');
+            $('.dtPublicacao').text('');
+
+            $('.nmMunicipio').text(nmMunicipio + ' - ' + nmUF);
+            $('.nmOrgao').text(nmOrgao);
+            $('.dtPublicacao').text(dtPublicacao);
+
+            $('.idEdital').val(idEdital);
+            $('.valorPleiteado').val(vlPleiteado);
+            $('.valorRecebido').val(vlRecebido);
+            $('.dtNotificacao').val(ConvertStringToDate(dtNotificacao));
+            $('.status').val(status);
+
+            $('.modal-edital-editar').modal();
+        });
+
+        $('.btn-edital-editar-salvar').on('click', function () {
+            var editalEditarViewModel = {};
+
+            var idEdital = $('.idEdital').val();
+            var valorPleiteado = $('.valorPleiteado').val();
+            var valorRecebido = $('.valorRecebido').val();
+            var dtNotificacao = $('.dtNotificacao').val();
+            var status = $('.status').val();
+
+            editalEditarViewModel.Id = idEdital;
+            editalEditarViewModel.ValorPleiteado = valorPleiteado;
+            editalEditarViewModel.ValorRecebido = valorRecebido;
+            editalEditarViewModel.DtNotificacao = dtNotificacao;
+            editalEditarViewModel.Status = status;
+
+            $.ajax({
+                async: true,
+                data: editalEditarViewModel,
+                url: '/Home/EditEdital',
+                type: 'POST',
+                success: function (response) {
+                    if (response.sucesso) {
+                        $('.modal-edital-editar .model-text').html('');
+                        $('.mensagem-edital-editar').addClass('alert alert-success').html('').append('Edital editado com sucesso!');
+                        setTimeout(function () {
+                            $('.modal-edital-editar').modal('hide');
+                            window.location.reload();
+                        }, 1000);
+                    }
+                    else {
+                        $('.mensagem-edital-editar').addClass('alert alert-danger').html('').append(response.mensagemErro);
+                    }
+
+                    resolve(response.sucesso);
+                }
+            });
         });
 
         async function SetFlagFavorito(objeto, id, favoritar) {

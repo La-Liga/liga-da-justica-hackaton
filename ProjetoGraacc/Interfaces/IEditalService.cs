@@ -11,5 +11,6 @@ namespace ProjetoGraacc.Interfaces
     {
         Task<IList<EditalListViewModel>> GetAllEditaisAsync(EditalFilterViewModel filter);
         Task<bool> AlterarFlagFavoritoAsync(FavoritarViewModel model);
+        Task<bool> EditEditalAsync(EditalEditViewModel model);
     }
 }

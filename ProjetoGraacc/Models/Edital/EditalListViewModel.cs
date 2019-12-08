@@ -15,5 +15,9 @@ namespace ProjetoGraacc.Models.Edital
         public string DtPublicacao { get; set; }
         public string Status { get; set; }
         public bool Favorito { get; set; }
+
+        public decimal vlPeiteado { get; set; }
+        public decimal vlRecebido { get; set; }
+        public string dtNotificacao { get; set; }
     }
 }

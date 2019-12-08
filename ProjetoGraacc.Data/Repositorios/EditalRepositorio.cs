@@ -16,6 +16,7 @@ namespace ProjetoGraacc.Data.Repositorios
     {
         Task<IList<Edital>> ListEditaisAsync(EditalFilterViewModel filter);
         Task<bool> AlterFalgFavoritoAsync(int id, bool favoritar);
+        Task<bool> EditEditalAsync(int id, decimal valorPleiteado, decimal valorRecebido, DateTime? dtNotificacao, string status);
     }
 
     public class EditalRepositorio : IEditalRespositorio
@@ -72,6 +73,26 @@ namespace ProjetoGraacc.Data.Repositorios
                 await connection.OpenAsync();
 
                 var sql = $"update edital set favorito = {favoritar} where id = {id}";
+                await connection.QueryAsync<Edital>(sql);
+
+                result = true;
+
+                await connection.CloseAsync();
+            }
+
+            return result;
+        }
+
+        public async Task<bool> EditEditalAsync(int id, decimal valorPleiteado, decimal valorRecebido, DateTime? dtNotificacao, string status)
+        {
+            bool result = false;
+            using (var connection = new MySqlConnection(_connectionString.MySQL))
+            {
+                await connection.OpenAsync();
+
+                var dtNotificacaoFormatada = dtNotificacao.HasValue ? dtNotificacao.Value.ToString("yyyy-MM-dd") : null;
+
+                var sql = $"update edital set valor_pleiteado = {valorPleiteado.ToString().Replace(",", ".")}, valor_recebido = {valorRecebido.ToString().Replace(",", ".")}, data_notificacao = '{dtNotificacaoFormatada}', status = {status} where id = {id}";
                 await connection.QueryAsync<Edital>(sql);
 
                 result = true;

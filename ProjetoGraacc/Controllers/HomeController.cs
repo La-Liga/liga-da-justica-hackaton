@@ -49,6 +49,25 @@ namespace ProjetoGraacc.Controllers
             return View(model);
         }
 
+        [HttpPost, ActionName("EditEdital")]
+        public async Task<IActionResult> EditEditalAsync(EditalEditViewModel model)
+        {
+            ReturnViewModel retorno = new ReturnViewModel();
+
+            try
+            {
+                var result = await _editalService.EditEditalAsync(model);
+                retorno.Sucesso = result;
+            }
+            catch (Exception)
+            {
+                retorno.Sucesso = false;
+                retorno.MensagemErro = "Erro, tente novamente!";
+            }
+
+            return Json(retorno);
+        }
+
         public IActionResult Sentencas()
         {
             return View();
