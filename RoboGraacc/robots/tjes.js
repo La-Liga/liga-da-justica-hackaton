@@ -1,9 +1,7 @@
-const readlineSync = require('readline-sync');
 const puppeteer = require('puppeteer');
 const htmlToText = require('html-to-text');
 const servico = require('../servicos/publicacao.service');
 
-const palavraChave = readlineSync.question('Qual a palavra chave? ');
 const urlBase = 'https://sistemas.tjes.jus.br/ediario';
 const linkPublicacaoBase = urlBase + '/index.php';
 
@@ -15,7 +13,7 @@ const enviarPublicacoes = async (publicacoes) => {
     publicacoes.forEach(async (item) => {
         await servico.criarPublicacao({
             ...item,
-            link: linkPublicacaoBase + item.linkParcial,
+            link: linkPublicacaoBase + '/' + item.linkParcial,
             texto: removeQuebraLinhaTab(htmlToText.fromString(item.textoHtml, { wordwrap: 130 })),
         })
     });
@@ -28,7 +26,7 @@ const robot = async () => {
 
     //Seta a palavra chave
     await page.focus('[name="jform[palavra_chave]"]');
-    await page.keyboard.type(palavraChave);
+    await page.keyboard.type('pena pecuniaria');
 
     //Seta a categoria edital
     await page.focus('[name="jform[categorias]"]');

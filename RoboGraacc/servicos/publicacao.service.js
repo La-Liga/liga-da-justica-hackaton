@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 const credentials = require('../config/credentials.json').MongoBD;
 const Publicacao = require('../models/publicacao');
 
-const pass = credentials.pass;
-const user = credentials.user;
-const connectionString = `mongodb://${user}:${pass}@ds253348.mlab.com:53348/hackaton_graacc`;
+const connectionString = credentials.url;
 
 mongoose.connect(connectionString, {
     useNewUrlParser: true,
