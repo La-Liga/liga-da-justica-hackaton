@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using ProjetoGraacc.Data.Models;
 using ProjetoGraacc.Data.Models.Config;
 using ProjetoGraacc.Data.Models.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -87,10 +88,17 @@ namespace ProjetoGraacc.Data.Repositorios
             using (var connection = new MySqlConnection(_connectionString.MySQL))
             {
                 await connection.OpenAsync();
+                
+                string sql;
+                if (dtNotificacao.HasValue)
+                {
+                    sql = $"update edital set valor_pleiteado = {valorPleiteado.ToString().Replace(",", ".")}, valor_recebido = {valorRecebido.ToString().Replace(",", ".")}, data_notificacao = '{ dtNotificacao.Value.ToString("yyyy-MM-dd")}', status = {status} where id = {id}";
+                }
+                else
+                {
+                    sql = $"update edital set valor_pleiteado = {valorPleiteado.ToString().Replace(",", ".")}, valor_recebido = {valorRecebido.ToString().Replace(",", ".")}, status = {status} where id = {id}";
+                }
 
-                var dtNotificacaoFormatada = dtNotificacao.HasValue ? dtNotificacao.Value.ToString("yyyy-MM-dd") : null;
-
-                var sql = $"update edital set valor_pleiteado = {valorPleiteado.ToString().Replace(",", ".")}, valor_recebido = {valorRecebido.ToString().Replace(",", ".")}, data_notificacao = '{dtNotificacaoFormatada}', status = {status} where id = {id}";
                 await connection.QueryAsync<Edital>(sql);
 
                 result = true;
