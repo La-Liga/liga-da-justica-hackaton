@@ -52,17 +52,20 @@ const robot = async () => {
     const publicacoes = await page.evaluate(() => {
         let result = [];
         const pat = /\d{2}\-\d{2}\-\d{4}/g;
+        const processoRegex = /\d{7}\-\d{2}\.\d{4}\.\d{1,}\.\d{2}\.\d{4}/igm;//0001728-03.2016.8.08.0007
 
         const elements =  document.querySelectorAll('#e-search-right > div.item');
         elements.forEach(item => {
             let element = item.querySelector('div.item-desc');
             let date = pat.exec(element.innerHTML);
+            let numeroProcesso = processoRegex.exec(element.innerHTML);
 
             result.push({
                 titulo: element.querySelector('a.e-search-title > b').innerText,
                 linkParcial: element.querySelector('a.e-search-title').getAttribute('href'),
                 textoHtml: element.innerHTML,
-                dataPublicacao: (date) ? date[0] : ''
+                dataPublicacao: (date) ? date[0] : '',
+                numeroProcesso: (numeroProcesso) ? numeroProcesso[0] : ''
             })
         });
 

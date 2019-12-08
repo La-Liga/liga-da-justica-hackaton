@@ -5,7 +5,8 @@ const publicacaoSchema = new mongoose.Schema({
     link: String,
     textoHtml: String,
     texto: String,
-    dataPublicacao: String
+    dataPublicacao: String,
+    numeroProcesso: String
 });
 
 const Publicacao = mongoose.model('Publicacao', publicacaoSchema);
