@@ -9,10 +9,12 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ProjetoGraacc.Data.Models.Config;
 using ProjetoGraacc.Data.Repositorios;
 using ProjetoGraacc.Interfaces;
 using ProjetoGraacc.Services;
+using ProjetoGraacc.Models;
 
 namespace ProjetoGraacc
 {
@@ -38,6 +40,10 @@ namespace ProjetoGraacc
             services.Configure<ConnectionStringConfig>(Configuration.GetSection("ConnectionString"));
 
             services.AddTransient<IEditalService, EditalService>();
+            // requires using Microsoft.Extensions.Options
+            services.Configure<EditalstoreDatabaseSettings>(Configuration.GetSection(nameof(EditalstoreDatabaseSettings)));
+            services.AddSingleton<IEditalstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<EditalstoreDatabaseSettings>>().Value);
+
             services.AddTransient<IEditalRespositorio, EditalRepositorio>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
