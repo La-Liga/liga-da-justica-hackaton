@@ -11,16 +11,19 @@ using ProjetoGraacc.Interfaces;
 using ProjetoGraacc.Models;
 using ProjetoGraacc.Models.Edital;
 using ProjetoGraacc.Models.Helper;
+using ProjetoGraacc.Services;
 
 namespace ProjetoGraacc.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IEditalService _editalService;
+        private readonly EditalMongoService _editalMongoService;
 
-        public HomeController(IEditalService editalService)
+        public HomeController(IEditalService editalService, EditalMongoService bookService)
         {
             _editalService = editalService;
+            _editalMongoService = bookService;
         }
 
         public IActionResult Index()
@@ -30,7 +33,16 @@ namespace ProjetoGraacc.Controllers
 
         public IActionResult Publicacoes()
         {
-            return View();
+            var result = _editalMongoService.Get();
+            return View(result.Select(x => new EditalMongoListViewModel
+            {
+                Id = x.Id.ToString(),
+                Titulo = x.Titulo,
+                TextoHtml = x.TextoHtml,
+                DataPublicacao = x.DataPublicacao,
+                NumeroProcesso = x.NumeroProcesso,
+                Link = x.Link
+            }).ToList());
         }
 
         public IActionResult Favoritos()
