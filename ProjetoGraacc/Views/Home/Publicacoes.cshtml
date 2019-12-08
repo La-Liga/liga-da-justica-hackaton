@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IList<EditalMongoListViewModel>
+
+@{
     ViewData["Title"] = "Publicações";
 }
 
@@ -47,7 +49,7 @@
                 <table class="table table-responsive-sm table-striped table-sm tbPublicacoes">
                     <thead>
                         <tr>
-                            <th>Edital Nº</th>
+                            <th>Nº do Processo</th>
                             <th>UF</th>
                             <th>Município</th>
                             <th>Órgão</th>
@@ -57,32 +59,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>001/2019</td>
-                            <td>ES</td>
-                            <td>JERÔNIMO MONTEIRO</td>
-                            <td>JERÔNIMO MONTEIRO - VARA ÚNICA</td>
-                            <td>@DateTime.Now.ToShortDateString()</td>
-                            <td>
-                                <button type="button" class="btn btn-pill btn-block btn-secondary" aria-pressed="true">Detalhar</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-pill btn-block btn-primary" aria-pressed="true">Selecionar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>022/2019</td>
-                            <td>ES</td>
-                            <td>PIÚMA</td>
-                            <td>PIÚMA - 2ª VARA</td>
-                            <td>15/04/2019</td>
-                            <td>
-                                <button type="button" class="btn btn-pill btn-block btn-secondary" aria-pressed="true">Detalhar</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-pill btn-block btn-primary" aria-pressed="true">Selecionar</button>
-                            </td>
-                        </tr>
+                        @foreach (var editalMongo in Model)
+                            {
+                                <tr>
+                                    <td>@editalMongo.NumeroProcesso</td>
+                                    <td>ES</td>
+                                    <td>Vitória</td>
+                                    <td>Secretaria de Justiça</td>
+                                    <td>@editalMongo.DataPublicacao</td>
+                                    <td>
+                                        <button type="button" class="btn btn-pill btn-block btn-warning" aria-pressed="true"><span class="icon-note"></span> Editar</button>
+                                    </td>
+                                </tr>
+                            }
                     </tbody>
                 </table>
             </div>
