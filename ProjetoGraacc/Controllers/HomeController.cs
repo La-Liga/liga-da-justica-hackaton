@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using ProjetoGraacc.Data.Constants;
 using ProjetoGraacc.Interfaces;
 using ProjetoGraacc.Models;
+using ProjetoGraacc.Models.Edital;
 using ProjetoGraacc.Models.Helper;
 
 namespace ProjetoGraacc.Controllers
@@ -42,9 +43,9 @@ namespace ProjetoGraacc.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Editais()
+        public async Task<IActionResult> Editais(EditalFilterViewModel filter)
         {
-            var model = await _editalService.GetAllEditaisAsync();
+            var model = await _editalService.GetAllEditaisAsync(filter);
             return View(model);
         }
 

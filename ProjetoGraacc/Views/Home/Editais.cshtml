@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Editais";
+    EditalFilterViewModel filter = (EditalFilterViewModel)ViewData["CurrentFilter"];
 }
 
 <style>
@@ -29,38 +30,41 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-                <div class="form-row">
-                    <div class="form-group col-sm-1">
-                        <label>UF:</label>
-                        <select class="form-control">
-                            <option value="ES">ES</option>
-                        </select>
+                <form>
+                    <input asp-for="@filter.Pesquisa" type="hidden" value="true" />
+                    <div class="form-row">
+                        <div class="form-group col-sm-1">
+                            <label>UF:</label>
+                            <select asp-for="@filter.UF" class="form-control">
+                                <option value="ES">ES</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label>Município:</label>
+                            <select asp-for="@filter.Municipio" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="JERÔNIMO MONTEIRO">JERÔNIMO MONTEIRO</option>
+                                <option value="PIÚMA">PIÚMA</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Órgão:</label>
+                            <select asp-for="@filter.Orgao" class="form-control">
+                                <option value="">Selecione</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>Apenas Favoritos?</label>
+                            <select asp-for="@filter.Favoritas" class="form-control">
+                                <option value="">Selecione</option>
+                                <option value="S">SIM</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <button type="submit" class="btn btn-block btn-primary active" style="margin-top: 28px;">Pesquisar</button>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-3">
-                        <label>Município:</label>
-                        <select class="form-control">
-                            <option value="">Selecione</option>
-                            <option value="JERÔNIMO MONTEIRO">JERÔNIMO MONTEIRO</option>
-                            <option value="PIÚMA">PIÚMA</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <label>Órgão:</label>
-                        <select class="form-control">
-                            <option value="">Selecione</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <label>Apenas Favoritos?</label>
-                        <select class="form-control">
-                            <option value="">Selecione</option>
-                            <option value="S">SIM</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <button type="submit" class="btn btn-block btn-primary active" style="margin-top: 28px;">Pesquisar</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

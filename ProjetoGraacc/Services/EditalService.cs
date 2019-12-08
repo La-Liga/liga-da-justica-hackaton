@@ -18,9 +18,17 @@ namespace ProjetoGraacc.Services
             _editalRespositorio = editalRespositorio;
         }
 
-        public async Task<IList<EditalListViewModel>> GetAllEditaisAsync()
+        public async Task<IList<EditalListViewModel>> GetAllEditaisAsync(EditalFilterViewModel filter)
         {
-            var result = await _editalRespositorio.ListAllEditalAsync();
+            var filterRepositorio = new ProjetoGraacc.Data.Models.Filters.EditalFilterViewModel
+            {
+                UF = filter.UF,
+                Municipio = filter.Municipio,
+                Orgao = filter.Orgao,
+                Favoritas = filter.Favoritas,
+                Pesquisa = filter.Pesquisa
+            };
+            var result = await _editalRespositorio.ListEditaisAsync(filterRepositorio);
             return result.Select(m =>
             new EditalListViewModel
             {
