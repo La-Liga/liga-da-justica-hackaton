@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Editar";
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Home</li>
+        <li class="breadcrumb-item active">Favoritos</li>
+        <li class="breadcrumb-item active">Editar</li>
+        <li class="breadcrumb-item active">Edital Nº 022/2019</li>
+    </ol>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-warning">
+            <div class="card-header">
+                <i class="icon-note"></i> Edital Nº 022/2019
+            </div>
+            <div class="card-body">
+                <b>Município:</b> PIÚMA - ES
+                <br />
+                <b>Órgão:</b> PIÚMA - 2ª VARA
+                <br />
+                <b>Data de publicação:</b> 15/04/2019
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-sm-2">
+                        <label>Tipo da Publicação:</label>
+                        <select class="form-control tpPublicacao">
+                            <option value="">Selecione</option>
+                            <option value="0">Edital</option>
+                            <option value="1">Sentença</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-2 tpEdital" style="display: none;">
+                        <label>Valor Pleiteado (R$):</label>
+                        <input type="text" class="form-control valorPleiteado money" />
+                    </div>
+                    <div class="form-group col-sm-2 tpEdital" style="display: none;">
+                        <label>Valor Recebido (R$):</label>
+                        <input type="text" class="form-control valorRecebido money" />
+                    </div>
+
+                    <div class="form-group col-sm-2 tpSentenca" style="display: none;">
+                        <label>Decisão em:</label>
+                        <select class="form-control decisao">
+                            <option value="">Selecione</option>
+                            <option value="">1ª Instância</option>
+                            <option value="">2ª Instância</option>
+                            <option value="">Ultima Instância</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-2 hiddenTpPublicacao" style="display: none;">
+                        <label>Data para notificação:</label>
+                        <input type="date" class="form-control dtNotificacao" />
+                    </div>
+
+                    <div class="form-group col-sm-2 hiddenTpPublicacao" style="display: none;">
+                        <label>Status:</label>
+                        <select class="form-control status">
+                            <option value="">Selecione</option>
+                            <option value="1">Aberta</option>
+                            <option value="2">Pleiteado</option>
+                            <option value="3">Finalizado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group col-sm-2 hiddenTpPublicacao" style="display: none;">
+                        <button type="submit" class="btn btn-block btn-success active" style="margin-top: 28px;">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+<!--/.row-->
+
+@section Scripts { 
+    <script src="~/js/jquery.mask.js"></script>
+
+    <script type="text/javascript">
+        $('.money').mask('#.##0,00', { reverse: true });
+
+        $('.tpPublicacao').on('change', function () {
+            var tpPublicacao = $(this).val();
+
+            //Se for Edital
+            if (tpPublicacao == '0') {
+                $('.tpEdital').removeAttr('style');
+
+                $('.hiddenTpPublicacao').removeAttr('style');
+
+                $('.decisao').val('');
+                $('.tpSentenca').css('display', 'none');
+            }
+            else if (tpPublicacao == '1') {
+                $('.tpSentenca').removeAttr('style');
+
+                $('.hiddenTpPublicacao').removeAttr('style');
+
+                $('.valorPleiteado').val('');
+                $('.valorRecebido').val('');
+                $('.tpEdital').css('display', 'none');
+            }
+            else {
+                $('.tpSentenca').val('');
+                $('.tpSentenca').css('display', 'none');
+
+                $('.tpEdital').val('');
+                $('.tpEdital').css('display', 'none');
+
+                $('.dtNotificacao').val('');
+                $('.status').val('');
+                $('.hiddenTpPublicacao').css('display', 'none');
+            }
+        });
+    </script>
+}

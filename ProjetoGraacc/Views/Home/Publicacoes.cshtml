@@ -1,0 +1,254 @@
+﻿@model List<EditalMongoListViewModel>
+
+@{
+    ViewData["Title"] = "Publicações";
+}
+
+@section Breadcrumbs {
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Home</li>
+        <li class="breadcrumb-item active">Publicações</li>
+    </ol>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-sm-2">
+                        <label>UF:</label>
+                        <select class="form-control">
+                            <option value="ES">ES</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label>Município:</label>
+                        <select class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="JERÔNIMO MONTEIRO">JERÔNIMO MONTEIRO</option>
+                            <option value="PIÚMA">PIÚMA</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-2 offset-4">
+                        <button type="submit" class="btn btn-block btn-primary active" style="margin-top: 28px;">Pesquisar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-accent-info">
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i> Publicações
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive-sm table-striped table-sm tbPublicacoes">
+                    <thead>
+                        <tr>
+                            <th>Nº do Processo</th>
+                            <th>UF</th>
+                            <th>Município</th>
+                            <th>Órgão</th>
+                            <th>Data de publicação</th>
+                            <th width="10%" data-orderable="false"></th>
+                            <th width="10%" data-orderable="false"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var editalMongo in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@editalMongo.Link" target="_blank">@editalMongo.NumeroProcesso</a>
+                                </td>
+                                <td>ES</td>
+                                <td>Vitória</td>
+                                <td>Secretaria de Justiça</td>
+                                <td>@editalMongo.DataPublicacao</td>
+                                <td>
+                                    <button type="button" class="btn btn-pill btn-block btn-secondary btn-publicacoes-detalhar" data-nrProcesso="@editalMongo.NumeroProcesso" data-texto="@editalMongo.TextoHtml" aria-pressed="true">Detalhar</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-pill btn-block btn-primary btn-publicacoes-selecionar" data-nrProcesso="@editalMongo.NumeroProcesso" data-titulo="@editalMongo.Titulo" data-link="@editalMongo.Link" data-texto="@editalMongo.Texto" data-textoHtml="@editalMongo.TextoHtml" data-dtPublicacao="@editalMongo.DataPublicacao" aria-pressed="true">Selecionar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--/.col-->
+</div>
+<!--/.row-->
+
+<div class="modal fade modal-publicacoes-detalhar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-secondary modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Detalhar Processo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body model-text">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade modal-publicacoes-selecionar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-primary modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Selecionar Processo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <b>Nº do Processo:</b> <span class="nrProcesso"></span>
+            </div>
+            <div class="col-sm-12">
+                <div class="mensagem-publicacao-selecionar" role="alert"></div>
+            </div>
+            <div class="modal-body model-text">
+                <input type="hidden" class="nrProcesso" />
+                <input type="hidden" class="titulo" />
+                <input type="hidden" class="link" />
+                <input type="hidden" class="texto" />
+                <input type="hidden" class="textoHtml" />
+                <input type="hidden" class="dtPublicacao" />
+
+                <div class="form-row">
+                    <div class="form-group col-sm-3">
+                        <label>Tipo da Publicação:</label>
+                        <select class="form-control tpPublicacao">
+                            <option value="0">Edital</option>
+                            @*<option value="1">Sentença</option>*@
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label>Valor Pleiteado (R$):</label>
+                        <input type="text" class="form-control valorPleiteado money" />
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label>Data para notificação:</label>
+                        <input type="date" class="form-control dtNotificacao" />
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label>Status:</label>
+                        <select class="form-control status">
+                            <option value="1">Aberta</option>
+                            <option value="2">Pleiteado</option>
+                            <option value="3">Finalizado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-warning btn-publicacoes-selecionar-salvar">Salvar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script src="~/js/jquery.mask.js"></script>
+
+    <script type="text/javascript">
+        $('.money').mask('#.##0,00', { reverse: true });
+
+        $('.tbPublicacoes').DataTable({
+            "order": [[0, "desc"]]
+        });
+
+        $('.btn-publicacoes-detalhar').on('click', function () {
+            var nrProcesso = $(this).data('nrprocesso');
+            var texto = $(this).data('texto');
+
+            $('.nrPrecesso').text('');
+            $('.model-text').text('');
+
+            $('.nrProcesso').text(nrProcesso);
+            $('.model-text').html(texto);
+
+            $('.modal-publicacoes-detalhar').modal();
+        });
+
+        $('.btn-publicacoes-selecionar').on('click', function () {
+            $('.nrProcesso').val($(this).data('nrprocesso'));
+            $('.titulo').val($(this).data('titulo'));
+            $('.link').val($(this).data('link'));
+            $('.texto').val($(this).data('texto'));
+            $('.textoHtml').val($(this).data('textohtml'));
+            $('.dtPublicacao').val($(this).data('dtpublicacao'));
+
+            $('.modal-publicacoes-selecionar').modal();
+        });
+
+        $('.btn-publicacoes-selecionar-salvar').on('click', function () {
+            var selecionaPublicacao = {};
+
+            var nrProcesso = $('.nrProcesso').val();
+            var titulo = $('.titulo').val();
+            var link = $('.link').val();
+            var texto = $('.texto').val();
+            var textoHtml = $('.textoHtml').val();
+            var dtPublicacao = $('.dtPublicacao').val();
+
+            var tpPublicacao = $('.tpPublicacao').val();
+            var valorPleiteado = $('.valorPleiteado').val();
+            var dtNotificacao = $('.dtNotificacao').val();
+            var status = $('.status').val();
+            
+            selecionaPublicacao.NrProcesso = nrProcesso;
+            selecionaPublicacao.Titulo = titulo;
+            selecionaPublicacao.Link = link;
+            selecionaPublicacao.Texto = texto;
+            selecionaPublicacao.TextoHtml = textoHtml;
+            selecionaPublicacao.DtPublicacao = dtPublicacao;
+            selecionaPublicacao.TpPublicacao = tpPublicacao;
+            selecionaPublicacao.ValorPleiteado = valorPleiteado;
+            selecionaPublicacao.DtNotificacao = dtNotificacao;
+            selecionaPublicacao.Status = status;
+
+            $.ajax({
+                async: true,
+                data: selecionaPublicacao,
+                url: '/Home/SelecionarPublicacao',
+                type: 'POST',
+                success: function (response) {
+                    if (response.sucesso) {
+                        $('.modal-publicacoes-selecionar .model-text').html('');
+                        $('.mensagem-publicacao-selecionar').addClass('alert alert-success').html('').append('Item selecionado com sucesso!');
+                        setTimeout(function () {
+                            $('.modal-publicacoes-selecionar').modal('hide');
+                            window.location.reload();
+                        }, 1000);
+                    }
+                    else {
+                        $('.mensagem-publicacao-selecionar').addClass('alert alert-danger').html('').append(response.mensagemErro);
+                    }
+
+                    resolve(response.sucesso);
+                }
+            });
+        });
+    </script>
+}
