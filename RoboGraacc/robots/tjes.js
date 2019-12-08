@@ -1,14 +1,30 @@
 const readlineSync = require('readline-sync');
 const puppeteer = require('puppeteer');
 const htmlToText = require('html-to-text');
-const servico = require('./servicos/publicacao.service');
+const servico = require('../servicos/publicacao.service');
 
 const palavraChave = readlineSync.question('Qual a palavra chave? ');
+const urlBase = 'https://sistemas.tjes.jus.br/ediario';
+const linkPublicacaoBase = urlBase + '/index.php';
 
-(async () => {
+const removeQuebraLinhaTab = texto => {
+    return texto.replace(/(\r\n|\n|\r|\t)/gm, '');
+}
+
+const enviarPublicacoes = async (publicacoes) => {
+    publicacoes.forEach(async (item) => {
+        await servico.criarPublicacao({
+            ...item,
+            link: linkPublicacaoBase + item.linkParcial,
+            texto: removeQuebraLinhaTab(htmlToText.fromString(item.textoHtml, { wordwrap: 130 })),
+        })
+    });
+}
+
+const robot = async () => {
     const browser  = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('https://sistemas.tjes.jus.br/ediario/index.php/pesquisa');
+    await page.goto(urlBase + '/index.php/pesquisa');
 
     //Seta a palavra chave
     await page.focus('[name="jform[palavra_chave]"]');
@@ -33,17 +49,6 @@ const palavraChave = readlineSync.question('Qual a palavra chave? ');
     await page.keyboard.press('Enter');
     await page.waitFor(10000);
 
-    //Obter foto da tela
-    //await page.screenshot({ path: 'pesquisa.png' });
-
-    //console.log(await page.title());
-
-    // const html = await page.evaluate(() => {
-    //     const elements =  Array.from(document.querySelectorAll('#e-search-right > div.item'));
-    //     return elements.map(item => item.innerHTML);
-    // });
-
-
     const publicacoes = await page.evaluate(() => {
         let result = [];
         const pat = /\d{2}\-\d{2}\-\d{4}/g;
@@ -55,7 +60,7 @@ const palavraChave = readlineSync.question('Qual a palavra chave? ');
 
             result.push({
                 titulo: element.querySelector('a.e-search-title > b').innerText,
-                link: element.querySelector('a.e-search-title').getAttribute('href'),
+                linkParcial: element.querySelector('a.e-search-title').getAttribute('href'),
                 textoHtml: element.innerHTML,
                 dataPublicacao: (date) ? date[0] : ''
             })
@@ -64,14 +69,9 @@ const palavraChave = readlineSync.question('Qual a palavra chave? ');
         return result;
     });
 
-
-
     await browser.close();
 
-    publicacoes.forEach(async (item) => {
-        await servico.criarPublicacao({
-            ...item, texto: htmlToText.fromString(item.textoHtml, { wordwrap: 130 }),
-        })
-    });
+    await enviarPublicacoes(publicacoes);
+};
 
-})();
+module.exports = robot;
