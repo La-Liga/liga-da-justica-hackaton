@@ -17,6 +17,12 @@ Tecnologias
 
 Instalação
 ========================================================================
+Rodar app node
+```shell
+cd RoboGraacc
+npm start
+```
+
 
 
 Arquitetura Atual
