@@ -1,3 +1,4 @@
+using MongoDB.Bson;
 using MongoDB.Driver;
 using ProjetoGraacc.Models;
 using System.Collections.Generic;
@@ -18,6 +19,6 @@ namespace ProjetoGraacc.Services
         }
 
         public List<EditalMongo> Get() => 
-            _editaisMongo.Find(editalMongo => true).ToList();
+            _editaisMongo.Find(new BsonDocument()).ToList();
     }
 }

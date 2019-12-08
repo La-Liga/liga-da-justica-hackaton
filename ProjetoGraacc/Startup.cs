@@ -40,6 +40,7 @@ namespace ProjetoGraacc
             services.Configure<ConnectionStringConfig>(Configuration.GetSection("ConnectionString"));
 
             services.AddTransient<IEditalService, EditalService>();
+            services.AddTransient<EditalMongoService, EditalMongoService>();
             // requires using Microsoft.Extensions.Options
             services.Configure<EditalstoreDatabaseSettings>(Configuration.GetSection(nameof(EditalstoreDatabaseSettings)));
             services.AddSingleton<IEditalstoreDatabaseSettings>(sp => sp.GetRequiredService<IOptions<EditalstoreDatabaseSettings>>().Value);

@@ -4,10 +4,8 @@ using MySql.Data.MySqlClient;
 using ProjetoGraacc.Data.Models;
 using ProjetoGraacc.Data.Models.Config;
 using ProjetoGraacc.Data.Models.Filters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjetoGraacc.Data.Repositorios

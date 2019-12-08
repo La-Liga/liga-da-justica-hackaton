@@ -1,4 +1,4 @@
-﻿@model IList<EditalMongoListViewModel>
+﻿@model List<EditalMongoListViewModel>
 
 @{
     ViewData["Title"] = "Publicações";
@@ -60,18 +60,21 @@
                     </thead>
                     <tbody>
                         @foreach (var editalMongo in Model)
-                            {
-                                <tr>
-                                    <td>@editalMongo.NumeroProcesso</td>
-                                    <td>ES</td>
-                                    <td>Vitória</td>
-                                    <td>Secretaria de Justiça</td>
-                                    <td>@editalMongo.DataPublicacao</td>
-                                    <td>
-                                        <button type="button" class="btn btn-pill btn-block btn-warning" aria-pressed="true"><span class="icon-note"></span> Editar</button>
-                                    </td>
-                                </tr>
-                            }
+                        {
+                            <tr>
+                                <td>@editalMongo.NumeroProcesso</td>
+                                <td>ES</td>
+                                <td>Vitória</td>
+                                <td>Secretaria de Justiça</td>
+                                <td>@editalMongo.DataPublicacao</td>
+                                <td>
+                                    <button type="button" class="btn btn-pill btn-block btn-secondary" aria-pressed="true">Detalhar</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-pill btn-block btn-primary" aria-pressed="true">Selecionar</button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
