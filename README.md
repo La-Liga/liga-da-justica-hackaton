@@ -39,14 +39,14 @@ npm start
 
 Arquitetura Atual
 ========================================================================
-![Arquitetura_Atual](/uploads/7a482d92efbec09faf64b3301ac41d35/Arquitetura_Atual.png)
+![Arquitetura_Atual](https://github.com/liga-da-justica-social/hackaton/blob/master/Docs/Arquitetura%20Atual.png)
 
 Temos um robô escrito em NodeJS que vai realizar a extração das informações na internet e envia para o banco de dados NoSQL MongoDB. Uma
 aplicação web desenvolvida em .Net obtem as informações do MongoDB e confirma a ações do usuário, está informação e inserida numa base de dados relacional Mysql
 
 Arquitetura Futura
 ========================================================================
-![Arquitetura_Futura](/uploads/6a12aabf7bd05b0c7bee646f2786d41f/Arquitetura_Futura.png)
+![Arquitetura_Futura](https://github.com/liga-da-justica-social/hackaton/blob/master/Docs/Arquitetura%20Futura.png)
 
 A intenção para o futuro é criar um mecanismo de escalabilidade para os robôs e que eles possam se utilizar se serviços cognitivos de inteligência atificial para se tornarem mais inteligentes, trazendo mais efetividade nas informações colhidas. O RabbitMQ será usado para controlar o fluxo de informações a facilitar o processamento das mesmas que seram inseridas no Elasticsearch, onde seram melhor indexadas
 
